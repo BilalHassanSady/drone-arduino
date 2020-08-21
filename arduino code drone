@@ -3,7 +3,7 @@
 #include <RF24.h>
 RF24 radio(7, 8); // CE, CSN
 const byte address[6] = "00001";
-int i = 0;
+static int i = 0;
 void setup() {
   pinMode(3,OUTPUT);
   pinMode(5,OUTPUT);
@@ -14,6 +14,7 @@ void setup() {
   radio.setPALevel(RF24_PA_MIN);
   radio.startListening();}
 void loop() {
+  
   if (radio.available()) {
     char val[32] = "";
     radio.read(&val, sizeof(val));
@@ -37,5 +38,21 @@ void loop() {
     analogWrite(3,255);
     analogWrite(9,255);
     analogWrite(6,100);
-  } }
+  } 
+    switch((int)val){
+       case 0:
+        for(int g=0;g<17;g++){
+         i=i+15; 
+        analogWrite(5,i);
+        analogWrite(3,i);
+       analogWrite(9,i);
+       analogWrite(6,i); 
+       delay(500);
+       if(digitalRead(2)==1){goto lable11;}
+    }
+       break;
+  lable11 :  case 1:
+      break;
+  }
+  }
   delay(100);}
