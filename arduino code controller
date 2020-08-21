@@ -1,0 +1,32 @@
+#include <LiquidCrystal.h>
+#include <SPI.h>
+#include <nRF24L01.h>
+#include <RF24.h>
+RF24 radio(7, 8); // CE, CSN
+LiquidCrystal lcd(3,4,5,6,7,8);
+const byte address[6] = "00001";
+  const char text1[] = "f";
+  const char text2[] = "r";
+  const char text3[] = "b";
+  const char text4[] = "l";
+void setup() {
+  lcd.begin(16 ,2); lcd.clear();
+  radio.begin();
+  radio.openWritingPipe(address);
+  radio.setPALevel(RF24_PA_MIN);
+  radio.stopListening();}
+void loop() {
+  int x1 = analogRead(A0);
+  int y = analogRead(A1);
+  if(x1<=1023&&x1>=900&&y>=500&&y<=600){
+    radio.write(&text1,sizeof(text1));
+    lcd.print("move front");  }
+    if(x1<=150&&x1>=0&&y>=500&&y<=600){
+    radio.write(&text3,sizeof(text3));
+     lcd.print("move back"); }  
+  if(x1<=500&&x1>=600&&y>=900&&y<=1023){
+    radio.write(&text2,sizeof(text2)); 
+     lcd.print("move right"); }
+    if(x1<=500&&x1>=600&&y>=0&&y<=150){
+    radio.write(&text4,sizeof(text4));
+     lcd.print("move back"); }}
