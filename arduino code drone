@@ -1,0 +1,41 @@
+#include <SPI.h>
+#include <nRF24L01.h>
+#include <RF24.h>
+RF24 radio(7, 8); // CE, CSN
+const byte address[6] = "00001";
+int i = 0;
+void setup() {
+  pinMode(3,OUTPUT);
+  pinMode(5,OUTPUT);
+  pinMode(6,OUTPUT);
+  pinMode(9,OUTPUT);
+  radio.begin();
+  radio.openReadingPipe(0, address);
+  radio.setPALevel(RF24_PA_MIN);
+  radio.startListening();}
+void loop() {
+  if (radio.available()) {
+    char val[32] = "";
+    radio.read(&val, sizeof(val));
+   if(val=='f'){
+     analogWrite(5,255);
+     analogWrite(3,255);
+     analogWrite(9,100);
+     analogWrite(6,100);
+  } if(val=='b'){
+      analogWrite(5,100);
+      analogWrite(3,100);
+      analogWrite(9,255);
+      analogWrite(6,255);
+  }  if(val=='r'){
+     analogWrite(5,255);
+     analogWrite(3,100);
+     analogWrite(9,100);
+     analogWrite(6,255);
+  }   if(val=='l'){
+    analogWrite(5,100);
+    analogWrite(3,255);
+    analogWrite(9,255);
+    analogWrite(6,100);
+  } }
+  delay(100);}
