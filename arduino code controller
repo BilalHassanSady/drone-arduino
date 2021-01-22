@@ -2,8 +2,8 @@
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
-RF24 radio(7, 8); // CE, CSN
-LiquidCrystal lcd(0,1,2,3,4,5);
+RF24 radio(9, 10); // CE, CSN
+LiquidCrystal lcd(3,4,5,6,7,8);
 const byte address[6] = "00001";
   const char text1[] = "f";
   const char text2[] = "r";
